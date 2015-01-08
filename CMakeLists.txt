@@ -23,6 +23,9 @@ option (ENABLE_STATS
 option (ENABLE_REGEX_URL
     "Enable url regex matching dispatcher" OFF)
 
+option (SHAREDLIB
+    "Generate a shared library" OFF)
+
 set (JSONCPP_DIR "${PROJECT_SOURCE_DIR}/../jsoncpp"
     CACHE STRING "Json C++ directory")
 
@@ -95,7 +98,12 @@ if (WIN32)
 endif (WIN32)
 
 # Compiling library
-add_library (mongoose ${SOURCES})
+if (SHAREDLIB)
+  add_library (mongoose SHARED ${SOURCES})
+else()
+  add_library (mongoose ${SOURCES})
+endif()
+
 target_link_libraries (mongoose ${EXTRA_LIBS} ${CMAKE_THREAD_LIBS_INIT})
 
 if (HAS_JSONCPP)
