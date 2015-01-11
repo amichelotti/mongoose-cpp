@@ -26,9 +26,6 @@ option (ENABLE_REGEX_URL
 option (SHAREDLIB
     "Generate a shared library" OFF)
 
-set (JSONCPP_DIR "${PROJECT_SOURCE_DIR}/../jsoncpp"
-    CACHE STRING "Json C++ directory")
-
 set (SOURCES
     mongoose.c
     )
@@ -36,6 +33,7 @@ set (SOURCES
 set (MONGOOSE_CPP "${PROJECT_SOURCE_DIR}/mongoose")
 
 include_directories ("${PROJECT_SOURCE_DIR}")
+
 
 if (ENABLE_STATS)
     add_definitions("-DENABLE_STATS")
@@ -63,13 +61,19 @@ if (CPP_BINDING)
         )
 
     if (HAS_JSONCPP)
+        IF(NOT JSONCPP_DIR)
+          message(STATUS "No path for jsonccp as been given")
+          set (JSONCPP_DIR "${PROJECT_SOURCE_DIR}/../jsoncpp")
+        ENDIF()
+
         set (SOURCES
             ${SOURCES}
             ${MONGOOSE_CPP}/JsonResponse.cpp
             ${MONGOOSE_CPP}/JsonController.cpp
             )
-
+        message(STATUS "Using ${JSONCPP_DIR}/include and ${JSONCPP_DIR}/lib as jsoncpp path")
         include_directories ("${JSONCPP_DIR}/include/")
+        LINK_DIRECTORIES( ${LINK_DIRECTORIES} ${JSONCPP_DIR}/lib/)
     endif (HAS_JSONCPP)
 
     if (WEBSOCKET)
@@ -121,7 +125,7 @@ if (MAIN)
     add_executable (main main.c)
     target_link_libraries (main mongoose)
 endif (MAIN)
-        
+
 # Compiling tests
 if (EXAMPLES)
     add_executable (post examples/post.c)
