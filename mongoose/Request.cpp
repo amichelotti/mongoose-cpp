@@ -176,7 +176,8 @@ namespace Mongoose
             ret = mg_get_var(connection, key.c_str(), buffer, size);
 
             if (ret == -1) {
-                return false;
+	      delete [] buffer;
+	      return false;
             }
 
             if (ret == -2) {
