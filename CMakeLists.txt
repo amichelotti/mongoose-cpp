@@ -27,7 +27,7 @@ option (SHAREDLIB
     "Generate a shared library" OFF)
 
 option (ENABLE_PIC
-    "Generate position independent code" ON)
+    "Generate position independent code" OFF)
 
 set (SOURCES
     mongoose.c
