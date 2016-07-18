@@ -26,6 +26,9 @@ option (ENABLE_REGEX_URL
 option (SHAREDLIB
     "Generate a shared library" OFF)
 
+option (ENABLE_PIC
+    "Generate position independent code" ON)
+
 set (SOURCES
     mongoose.c
     )
@@ -34,6 +37,9 @@ set (MONGOOSE_CPP "${PROJECT_SOURCE_DIR}/mongoose")
 
 include_directories ("${PROJECT_SOURCE_DIR}")
 
+if (ENABLE_PIC)
+    add_definitions("-fPIC")
+endif (ENABLE_PIC)
 
 if (ENABLE_STATS)
     add_definitions("-DENABLE_STATS")
