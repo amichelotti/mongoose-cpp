@@ -26,6 +26,9 @@ option (ENABLE_REGEX_URL
 option (SHAREDLIB
     "Generate a shared library" OFF)
 
+option (ENABLE_PIC
+    "Enable PIC compilation" OFF)
+
 set (JSONCPP_DIR "${PROJECT_SOURCE_DIR}/../jsoncpp"
     CACHE STRING "Json C++ directory")
 
@@ -37,6 +40,9 @@ set (MONGOOSE_CPP "${PROJECT_SOURCE_DIR}/mongoose")
 
 include_directories ("${PROJECT_SOURCE_DIR}")
 
+if( ENABLE_PIC)
+add_definitions(-fPIC)
+endif()
 if (ENABLE_STATS)
     add_definitions("-DENABLE_STATS")
 endif (ENABLE_STATS)
